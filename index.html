@@ -98,6 +98,40 @@
         translate: -50% 0;
       }
 
+      .download-actions {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 1000;
+      }
+      .download-btn {
+        appearance: none;
+        border: none;
+        border-radius: 8px;
+        background: #0a5575;
+        color: #fff;
+        padding: 10px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(10, 85, 117, 0.25);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      }
+      .download-btn:hover {
+        background: #0b6b95;
+        box-shadow: 0 10px 24px rgba(10, 85, 117, 0.3);
+        transform: translateY(-1px);
+      }
+      .download-btn:active {
+        transform: translateY(0);
+      }
+
+      /* Ensure proper PDF export sizing */
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
       .container {
         width: var(--page-width);
         height: var(--page-height);
@@ -226,6 +260,11 @@
       }
 
       @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
         body {
           background: white;
           padding: 0;
@@ -241,6 +280,9 @@
         }
         .container {
           box-shadow: none;
+        }
+        .download-actions {
+          display: none !important;
         }
       }
     </style>
@@ -414,6 +456,11 @@
       </div>
         </div>
       </div>
+    </div>
+    <div class="download-actions">
+      <button type="button" class="download-btn" onclick="window.print()">
+        Download PDF
+      </button>
     </div>
   </body>
 </html>
