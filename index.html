@@ -60,6 +60,10 @@
     }
     </script>
     <style>
+      :root {
+        --page-width: 210mm;
+        --page-height: 297mm;
+      }
       * {
         margin: 0;
         padding: 0;
@@ -75,10 +79,28 @@
         align-items: center;
         min-height: 100vh;
       }
+      .page-wrapper {
+        --scale: clamp(0.25, calc(100vw / var(--page-width)), 1);
+        width: 100vw;
+        max-width: var(--page-width);
+        height: calc(var(--page-height) * var(--scale));
+        position: relative;
+        display: block;
+      }
+      .page-scaler {
+        width: var(--page-width);
+        height: var(--page-height);
+        transform: scale(var(--scale));
+        transform-origin: top center;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        translate: -50% 0;
+      }
 
       .container {
-        width: 210mm;
-        height: 297mm;
+        width: var(--page-width);
+        height: var(--page-height);
         background: white;
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
         overflow: hidden;
@@ -208,6 +230,15 @@
           background: white;
           padding: 0;
         }
+        .page-wrapper {
+          width: auto;
+          height: auto;
+        }
+        .page-scaler {
+          transform: none !important;
+          position: static;
+          translate: 0 0;
+        }
         .container {
           box-shadow: none;
         }
@@ -215,7 +246,9 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="page-wrapper">
+      <div class="page-scaler">
+        <div class="container">
       <div class="header"></div>
 
       <div class="main-content">
@@ -379,26 +412,8 @@
           </div>
         </div>
       </div>
+        </div>
+      </div>
     </div>
-
-    <script>
-      // Make the profile image editable by clicking on it
-      document
-        .querySelector(".profile-img")
-        .addEventListener("click", function () {
-          const input = document.createElement("input");
-          input.type = "file";
-          input.accept = "image/*";
-          input.onchange = function (e) {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function (event) {
-              document.querySelector(".profile-img").src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-          };
-          input.click();
-        });
-    </script>
   </body>
 </html>
